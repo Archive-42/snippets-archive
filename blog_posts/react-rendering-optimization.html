@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>React rendering optimization</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">React rendering optimization</h1>
+</header>
+<h4 id="react-rendering">React rendering</h4>
+<ul>
+<li><a href="/blog/s/react-rendering-basics">React rendering basics</a></li>
+<li>React rendering optimization (this blog post)</li>
+<li><a href="/blog/s/react-rendering-state">React rendering state</a></li>
+</ul>
+<h3 id="optimization-opportunities">Optimization opportunities</h3>
+<p>As we’ve seen in the <a href="/blog/s/react-rendering-basics">previous blog post</a>, <strong>rendering</strong> is React’s way of knowing if it needs to make changes in the DOM, but there are certain cases where work and calculations performed during the <strong>render phase</strong> can be a wasted effort. After all, if a component’s render output is identical, there will be no DOM updates, thus the work wasn’t necessary.</p>
+<p>Render output should always be based on the current combination of <code>props</code> and <code>state</code>, so it is possible to know ahead of time if a component’s render output will be the same so long as its <code>props</code> and <code>state</code> remain unchanged. This is the key observation on top of which optimizing React rendering is based, as it hinges on our code doing less work and skipping component rendering when possible.</p>
+<h3 id="optimization-techniques">Optimization techniques</h3>
+<p>React offers a handful of APIs that allow us to optimize the rendering process:</p>
+<ul>
+<li><code>shouldComponentUpdate</code> (class components): Lifecycle method, called before rendering, returning a boolean (<code>false</code> to skip rendering, <code>true</code> to proceed as usual). Logic can vary as necessary, but the most common case is checking if the component’s <code>props</code> and <code>state</code> have changed.</li>
+<li><code>React.PureComponent</code> (class components): Base class that implements the previously described <code>props</code> and <code>state</code> change check in its <code>shouldComponentUpdate</code> lifecycle method.</li>
+<li><code>React.memo()</code> (any component): Higher-order component (HOC) that wraps any given component. It implements the same kind of functionality as <code>React.PureComponent</code>, but can also wrap function components.</li>
+</ul>
+<p>All of these techniques use <strong>shallow equality</strong> for comparisons. Skipping rendering a component means skipping the default recursive behavior of rendering children, effectively skipping the whole subtree of components.</p>
+<h3 id="reference-memoization">Reference memoization</h3>
+<p>Passing new references as <code>props</code> to a child component doesn’t usually matter, as it will re-render regardless when the parent changes. However, if you are trying to optimize a child component’s rendering by checking if its <code>props</code> have changed, passing new references will cause a render. This behavior is ok if the new references are updated data, but if it’s a new reference to the same callback function passed down by the parent, it’s rather problematic.</p>
+<p>This is less of an issue in class components, as they have instance methods whose references don’t change, although any sort of generated callbacks passed down to a component’s children can result in new references. As far as function components are concerned, React provides the <code>useMemo</code> hook for memoizing values, and the <code>useCallback</code> hook specifically for memoizing callbacks.</p>
+<p><code>useMemo</code> and <code>useCallback</code> can provide performance benefits but, as with any other memoization usage, it’s important to think about their necessity and the net benefit they provide in the long run. A good rule of thumb is to consider using them for pure functional components that re-render often with the same <code>props</code> and/or might do heavy calculations and avoid them elsewhere.</p>
+<h3 id="performance-measurement">Performance measurement</h3>
+<p><strong>React Developer Tools</strong> provide a handy <strong>Profiler</strong> tab that allows you to visualize and explore the rendering process of your React applications. Under this tab, you will find a settings icon which will allow you to <em>Highlight updates when components render</em>, as well as <em>Record why each component rendered while profiling</em> - I highly suggest ticking both of them. Recording the initial render and re-renders of the website can provide invaluable insights about the application’s bottlenecks and issues and also highlight optimization opportunities (often using one of the techniques described above).</p>
+<p>Finally, remember that React’s development builds are significantly slower than production builds, so take all the measurements you see with a grain of salt as absolute times in development are not a valuable metric. Identifying unnecessary renders, memoization and optimization opportunities, as well as potential bottlenecks is where you should focus.</p>
+<p><a href="/blog/s/react-rendering-state">Continue on React rendering state</a></p>
+</body>
+</html>

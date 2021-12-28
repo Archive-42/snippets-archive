@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>React rendering state</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">React rendering state</h1>
+</header>
+<h4 id="react-rendering">React rendering</h4>
+<ul>
+<li><a href="/blog/s/react-rendering-basics">React rendering basics</a></li>
+<li><a href="/blog/s/react-rendering-optimization">React rendering optimization</a></li>
+<li>React rendering state (this blog post)</li>
+</ul>
+<h3 id="context-api">Context API</h3>
+<p>React’s <strong>Context API</strong> provides a way to pass data through the component tree without using <code>props</code>, but should not be used for state management as it requires manual updating. Any component inside a context’s <code>Provider</code> can access the data in the context instance using a <code>Consumer</code> component or, for function components only, the <code>useContext</code> hook.</p>
+<p>When a new reference is passed to a context <code>Provider</code> it will cause any connected components to update. React will look for any components consuming the context in the component tree and update them to reflect the change in the context’s value. Passing a new object to a context <code>Provider</code> is essentially a new reference, as the context holds a single value (in this case an object).</p>
+<h3 id="context-optimization">Context optimization</h3>
+<p>By default, any update to a parent component that renders a context <code>Provider</code> will cause all of the child components to re-render regardless of changes in the context, due to React’s rendering process. To avoid re-rendering child components when a parent changes, <strong>memoization</strong> can be used, which will cause React to skip the whole subtree of a skipped component.</p>
+<p>When the context is updated, React additionally checks for components consuming the context down the subtree. This allows context-consuming components under a memoized parent that does not re-render to consume the updated context and render as necessary. After a context-consuming component re-renders, React will keep on recursively rendering its child components as usual.</p>
+<p>Oftentimes, it’s a good idea to memoize the component immediately under a context <code>Provider</code>. That way updates to the parent component will not cause a re-render for the whole subtree, but only the components that consume the context.</p>
+<h3 id="react-redux">React-Redux</h3>
+<p>React-Redux provides bindings for <strong>Redux</strong>, a state container for JavaScript applications, and works a little differently from React’s Context API. One of the key differences is that React-Redux only re-renders components that need to render, due to the fact that components subscribed to the Redux store read the latest store state, diff the values and force re-render only if the relevant data has changed, while React is not involved at all in the subscription callback process.</p>
+<p>While this most likely means that fewer components will have to re-render compared to using a context, React-Redux always executes its <code>mapStateToProps</code> and <code>useSelector</code> functions for every connected component in the tree whenever the store state is updated. These calculations are usually less expensive than React’s rendering, but if there are costly calculations performed or new references returned when they shouldn’t, it might become problematic.</p>
+<h3 id="react-redux-optimization">React-Redux optimization</h3>
+<p>React-Redux provides two ways of connecting to its store, performing the necessary work and returning the combined <code>props</code>:</p>
+<ul>
+<li><code>connect</code> (any component): Higher-order component (HOC) that wraps any given component</li>
+<li><code>useSeletor</code> (function components): Hook called inside function components</li>
+</ul>
+<p><code>connect</code> acts a lot like memoizing a React component (i.e. using <code>React.PureComponent</code> or <code>React.memo()</code>), updating the wrapped component only when the combined <code>props</code> have changed. This means that passing new references from the parent or the passed functions will still cause a re-render. Components wrapped with <code>connect</code> usually read smaller pieces of data from the store state, are less likely to re-render due to that and usually affect fewer components down their tree.</p>
+<p>On the other hand, <code>useSelector</code> has no way of stopping a component from rendering when its parent component renders. When exclusively using <code>useSelector</code>, larger parts of the component tree will re-render due to Redux store updates than they would with <code>connect</code>, since there aren’t other components using <code>connect</code> to prevent them from doing so. You can use <code>React.memo()</code> as necessary, to optimize this behavior by preventing unnecessary re-rendering.</p>
+</body>
+</html>

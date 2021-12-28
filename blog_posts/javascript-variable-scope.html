@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Understanding JavaScript variables and scopes</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Understanding JavaScript variables and scopes</h1>
+</header>
+<p>I have seen many developers - my younger self included - struggle with JavaScript’s variables and scopes, even if they have some experience with coding and/or the language itself. While there are dozens of great articles on this subject, I found it somewhat difficult to memorize or understand the way these concepts work when I was starting out, so here’s a short and simple breakdown that might help you as much as it helped me.</p>
+<h3 id="variable-definition">Variable definition</h3>
+<p>JavaScript provides two ways to define a variable (<code>var</code> and <code>let</code>) and one way to define a constant value (<code>const</code>).</p>
+<p><code>let</code> and <code>const</code> behave the same in terms of scope, both being block scoped (see below). On the other hand, <code>var</code> behaves differently by being function scoped (see below), meaning <code>var</code> declarations inside a block scope will also be available to the nearest outer function block.</p>
+<p>It is generally preferred to use <code>let</code> and <code>const</code> to avoid confusion when it comes to scoping. However, it is important to note that <code>var</code> can be a useful JavaScript feature when used in the correct circumstances.</p>
+<figure>
+<img src="./blog_images/js-variable-scope.png" alt="Visualization of JavaScript variable scope" /><figcaption aria-hidden="true">Visualization of JavaScript variable scope</figcaption>
+</figure>
+<h3 id="scope">Scope</h3>
+<p>When we talk about scope, we mean the visibility of one or more entities (e.g variables) to certain parts of our code. There are two types of scopes: global and local. Local scope can in turn be separated into block, function and other types of more specific scopes.</p>
+<p><strong>Global scope</strong>: Variables defined globally (i.e. not inside a block or function) are part of the global scope and can be accessed from anywhere in the code. When declared in the global scope, <code>var</code>, <code>let</code> and <code>const</code> behave the same in terms of scope.</p>
+<p><strong>Local scope</strong>: Variables defined inside a block or function can only be accessed from the block or function where they were defined, as well as nested local scopes. When declared inside a block scope, <code>var</code> will be available but <code>undefined</code> in outer scopes, while <code>let</code> and <code>const</code> will not exist in outer scopes. When declared inside a function scope, <code>var</code>, <code>let</code> and <code>const</code> will all be non-existent in outer scopes.</p>
+</body>
+</html>

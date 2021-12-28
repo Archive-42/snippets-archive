@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>React rendering basics</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">React rendering basics</h1>
+</header>
+<h4 id="react-rendering">React rendering</h4>
+<ul>
+<li>React rendering basics (this blog post)</li>
+<li><a href="/blog/s/react-rendering-optimization">React rendering optimization</a></li>
+<li><a href="/blog/s/react-rendering-state">React rendering state</a></li>
+</ul>
+<h3 id="rendering-introduction">Rendering introduction</h3>
+<p><strong>Rendering</strong> is the process during which React moves down the component tree starting at the root, looking for all the components flagged for update, asking them to describe their desired UI structure based on the current combination of <code>props</code> and <code>state</code>. For each flagged component, React will call its <code>render()</code> method (for class components) or <code>FunctionComponent()</code> (for function components), and save the output produced after converting the JSX result into a plain JS object, using <code>React.createElement()</code>.</p>
+<p>After collecting the render output from the entire component tree, React will diff the new tree (the <strong>virtual DOM</strong>) with the current DOM tree and collect the list of changes that need to be made to the DOM to produce the desired UI structure. After this process, known as <strong>reconciliation</strong>, React applies all the calculated changes to the DOM.</p>
+<h3 id="render-and-commit-phases">Render and commit phases</h3>
+<p>Conceptually, this work is divided into two phases:</p>
+<ul>
+<li><strong>Render phase</strong>: rendering components, calculating changes</li>
+<li><strong>Commit phase</strong>: applying the changes to the DOM</li>
+</ul>
+<p>After the <strong>commit phase</strong> is complete, React will run <code>componentDidMount</code> and <code>componentDidUpdate</code> lifecycle methods, as well as <code>useLayoutEffect</code> and, after a short timeout, <code>useEffect</code> hooks.</p>
+<p>Two key takeaways here are the following:</p>
+<ul>
+<li>Rendering is not the same as updating the DOM</li>
+<li>A component may be rendered without any visible changes</li>
+</ul>
+<h3 id="rendering-reasons">Rendering reasons</h3>
+<p>After the initial render has completed, there are a few different things that will cause a re-render:</p>
+<ul>
+<li><code>this.setState()</code> (class components)</li>
+<li><code>this.forceUpdate()</code> (class components)</li>
+<li><code>useState()</code> setters (function components)</li>
+<li><code>useReducer()</code> dispatches (function components)</li>
+<li><code>ReactDOM.render()</code> again (on the root component)</li>
+</ul>
+<h3 id="rendering-behavior">Rendering behavior</h3>
+<p>React’s default behavior is to <strong>recursively render all child components inside of it when a parent component is rendered</strong>. This means that it does not care if a component’s <code>props</code> have changed - as long as the parent component rendered, its children will render unconditionally.</p>
+<p>To put this another way, calling <code>setState()</code> in the root component without any other changes, will cause React to re-render every single component in the component tree. Most likely, most of the components will return the exact same render output as the last render, meaning React will not have to make any changes to the DOM, but the rendering and diffing calculations will be performed regardless, taking time and effort.</p>
+<p><a href="/blog/s/react-rendering-optimization">Continue on React rendering optimization</a></p>
+</body>
+</html>

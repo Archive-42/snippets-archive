@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>25 CSS gradients for your next project</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+
+      p,
+      h2,
+      h3 {
+        orphans: 3;
+        widows: 3;
+      }
+
+      h2,
+      h3,
+      h4 {
+        page-break-after: avoid;
+      }
+    }
+
+    p {
+      margin: 1em 0;
+    }
+
+    a {
+      color: #1a1a1a;
+    }
+
+    a:visited {
+      color: #1a1a1a;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 1.4em;
+    }
+
+    h5,
+    h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+
+    h6 {
+      font-weight: normal;
+    }
+
+    ol,
+    ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+
+    li>ol,
+    li>ul {
+      margin-top: 0;
+    }
+
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+
+    .sourceCode {
+      background-color: transparent;
+      overflow: visible;
+    }
+
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    table caption {
+      margin-bottom: 0.75em;
+    }
+
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+
+    #TOC li {
+      list-style: none;
+    }
+
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    span.underline {
+      text-decoration: underline;
+    }
+
+    div.column {
+      display: inline-block;
+      vertical-align: top;
+      width: 50%;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    pre>code.sourceCode {
+      white-space: pre;
+      position: relative;
+    }
+
+    pre>code.sourceCode>span {
+      display: inline-block;
+      line-height: 1.25;
+    }
+
+    pre>code.sourceCode>span:empty {
+      height: 1.2em;
+    }
+
+    .sourceCode {
+      overflow: visible;
+    }
+
+    code.sourceCode>span {
+      color: inherit;
+      text-decoration: inherit;
+    }
+
+    div.sourceCode {
+      margin: 1em 0;
+    }
+
+    pre.sourceCode {
+      margin: 0;
+    }
+
+    @media screen {
+      div.sourceCode {
+        overflow: auto;
+      }
+    }
+
+    @media print {
+      pre>code.sourceCode {
+        white-space: pre-wrap;
+      }
+
+      pre>code.sourceCode>span {
+        text-indent: -5em;
+        padding-left: 5em;
+      }
+    }
+
+    pre.numberSource code {
+      counter-reset: source-line 0;
+    }
+
+    pre.numberSource code>span {
+      position: relative;
+      left: -4em;
+      counter-increment: source-line;
+    }
+
+    pre.numberSource code>span>a:first-child::before {
+      content: counter(source-line);
+      position: relative;
+      left: -1em;
+      text-align: right;
+      vertical-align: baseline;
+      border: none;
+      display: inline-block;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      padding: 0 4px;
+      width: 4em;
+      color: #aaaaaa;
+    }
+
+    pre.numberSource {
+      margin-left: 3em;
+      border-left: 1px solid #aaaaaa;
+      padding-left: 4px;
+    }
+
+    div.sourceCode {}
+
+    @media screen {
+      pre>code.sourceCode>span>a:first-child::before {
+        text-decoration: underline;
+      }
+    }
+
+    code span.al {
+      color: #ff0000;
+      font-weight: bold;
+    }
+
+    /* Alert */
+    code span.an {
+      color: #60a0b0;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    /* Annotation */
+    code span.at {
+      color: #7d9029;
+    }
+
+    /* Attribute */
+    code span.bn {
+      color: #40a070;
+    }
+
+    /* BaseN */
+    code span.bu {}
+
+    /* BuiltIn */
+    code span.cf {
+      color: #007020;
+      font-weight: bold;
+    }
+
+    /* ControlFlow */
+    code span.ch {
+      color: #4070a0;
+    }
+
+    /* Char */
+    code span.cn {
+      color: #880000;
+    }
+
+    /* Constant */
+    code span.co {
+      color: #60a0b0;
+      font-style: italic;
+    }
+
+    /* Comment */
+    code span.cv {
+      color: #60a0b0;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    /* CommentVar */
+    code span.do {
+      color: #ba2121;
+      font-style: italic;
+    }
+
+    /* Documentation */
+    code span.dt {
+      color: #902000;
+    }
+
+    /* DataType */
+    code span.dv {
+      color: #40a070;
+    }
+
+    /* DecVal */
+    code span.er {
+      color: #ff0000;
+      font-weight: bold;
+    }
+
+    /* Error */
+    code span.ex {}
+
+    /* Extension */
+    code span.fl {
+      color: #40a070;
+    }
+
+    /* Float */
+    code span.fu {
+      color: #06287e;
+    }
+
+    /* Function */
+    code span.im {}
+
+    /* Import */
+    code span.in {
+      color: #60a0b0;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    /* Information */
+    code span.kw {
+      color: #007020;
+      font-weight: bold;
+    }
+
+    /* Keyword */
+    code span.op {
+      color: #666666;
+    }
+
+    /* Operator */
+    code span.ot {
+      color: #007020;
+    }
+
+    /* Other */
+    code span.pp {
+      color: #bc7a00;
+    }
+
+    /* Preprocessor */
+    code span.sc {
+      color: #4070a0;
+    }
+
+    /* SpecialChar */
+    code span.ss {
+      color: #bb6688;
+    }
+
+    /* SpecialString */
+    code span.st {
+      color: #4070a0;
+    }
+
+    /* String */
+    code span.va {
+      color: #19177c;
+    }
+
+    /* Variable */
+    code span.vs {
+      color: #4070a0;
+    }
+
+    /* VerbatimString */
+    code span.wa {
+      color: #60a0b0;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    /* Warning */
+    .display.math {
+      display: block;
+      text-align: center;
+      margin: 0.5rem auto;
+    }
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <header id="title-block-header">
+    <h1 class="title">25 CSS gradients for your next project</h1>
+  </header>
+  <p><a href="https://uigradients.com/">uiGradients</a> has an amazing collection of ready-to-use CSS gradients for
+    pretty much anything. I highly recommend checking out the full collection. Meantime, here are our top picks in case
+    you’re looking for some color:</p>
+  <style>
+    .gradient-box {
+      width: 100%;
+      height: 64px;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: -16px;
+      margin-top: 32px;
+    }
+
+    .gradient-box+.gatsby-highlight>pre.blog-code {
+      border-radius: 0 0 8px 8px;
+    }
+
+    .stripe {
+      background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);
+    }
+
+    .flare {
+      background: linear-gradient(to right, #f12711, #f5af19);
+    }
+
+    .vanusa {
+      background: linear-gradient(to right, #da4453, #89216b);
+    }
+
+    .sublime-light {
+      background: linear-gradient(to right, #fc5c7d, #6a82fb);
+    }
+
+    .bighead {
+      background: linear-gradient(to right, #c94b4b, #4b134f);
+    }
+
+    .velvet-sun {
+      background: linear-gradient(to right, #e1eec3, #f05053);
+    }
+
+    .relay {
+      background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+    }
+
+    .crystal-clear {
+      background: linear-gradient(to right, #159957, #155799);
+    }
+
+    .celestial {
+      background: linear-gradient(to right, #c33764, #1d2671);
+    }
+
+    .ibiza-sunset {
+      background: linear-gradient(to right, #ee0979, #ff6a00);
+    }
+
+    .fresh-turboscent {
+      background: linear-gradient(to right, #f1f2b5, #135058);
+    }
+
+    .cheer-up-emo-kid {
+      background: linear-gradient(to right, #556270, #ff6b6b);
+    }
+
+    .starfall {
+      background: linear-gradient(to right, #f0c27b, #4b1248);
+    }
+
+    .nelson {
+      background: linear-gradient(to right, #f2709c, #ff9472);
+    }
+
+    .forever-lost {
+      background: linear-gradient(to right, #5d4157, #a8caba);
+    }
+
+    .blurry-beach {
+      background: linear-gradient(to right, #d53369, #cbad6d);
+    }
+
+    .influenza {
+      background: linear-gradient(to right, #c04848, #480048);
+    }
+
+    .calm-darya {
+      background: linear-gradient(to right, #5f2c82, #49a09d);
+    }
+
+    .titanium {
+      background: linear-gradient(to right, #283048, #859398);
+    }
+
+    .pinky {
+      background: linear-gradient(to right, #dd5e89, #f7bb97);
+    }
+
+    .purple-paradise {
+      background: linear-gradient(to right, #1d2b64, #f8cdda);
+    }
+
+    .horizon {
+      background: linear-gradient(to right, #003973, #e5e5be);
+    }
+
+    .noon-to-dusk {
+      background: linear-gradient(to right, #ff6e7f, #bfe9ff);
+    }
+
+    .jshine {
+      background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+    }
+
+    .argon {
+      background: linear-gradient(to right, #03001e, #7303c0, #ec38bc, #fdeff9);
+    }
+  </style>
+  <div class="gradient-box stripe">
+
+  </div>
+  <div class="sourceCode" id="cb1">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.stripe</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#1fa2ff</span><span class="op">,</span> <span class="cn">#12d8fa</span><span class="op">,</span> <span class="cn">#a6ffcb</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box flare">
+
+  </div>
+  <div class="sourceCode" id="cb2">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.flare</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#f12711</span><span class="op">,</span> <span class="cn">#f5af19</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box vanusa">
+
+  </div>
+  <div class="sourceCode" id="cb3">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.vanusa</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#da4453</span><span class="op">,</span> <span class="cn">#89216b</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box sublime-light">
+
+  </div>
+  <div class="sourceCode" id="cb4">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.sublime-light</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#fc5c7d</span><span class="op">,</span> <span class="cn">#6a82fb</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box bighead">
+
+  </div>
+  <div class="sourceCode" id="cb5">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.bighead</span> {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#c94b4b</span><span class="op">,</span> <span class="cn">#4b134f</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box velvet-sun">
+
+  </div>
+  <div class="sourceCode" id="cb6">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.velvet-sun</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#e1eec3</span><span class="op">,</span> <span class="cn">#f05053</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box argon">
+
+  </div>
+  <div class="sourceCode" id="cb7">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.argon</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#03001e</span><span class="op">,</span> <span class="cn">#7303c0</span><span class="op">,</span> <span class="cn">#ec38bc</span><span class="op">,</span> <span class="cn">#fdeff9</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box celestial">
+
+  </div>
+  <div class="sourceCode" id="cb8">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.celestial</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#c33764</span><span class="op">,</span> <span class="cn">#1d2671</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box relay">
+
+  </div>
+  <div class="sourceCode" id="cb9">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.relay</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#3a1c71</span><span class="op">,</span> <span class="cn">#d76d77</span><span class="op">,</span> <span class="cn">#ffaf7b</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box crystal-clear">
+
+  </div>
+  <div class="sourceCode" id="cb10">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.crystal-clear</span> {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#159957</span><span class="op">,</span> <span class="cn">#155799</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box ibiza-sunset">
+
+  </div>
+  <div class="sourceCode" id="cb11">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.ibiza-sunset</span> {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#ee0979</span><span class="op">,</span> <span class="cn">#ff6a00</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box fresh-turboscent">
+
+  </div>
+  <div class="sourceCode" id="cb12">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.fresh-turboscent</span> {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#f1f2b5</span><span class="op">,</span> <span class="cn">#135058</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box cheer-up-emo-kid">
+
+  </div>
+  <div class="sourceCode" id="cb13">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.cheer-up-emo-kid</span> {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#556270</span><span class="op">,</span> <span class="cn">#ff6b6b</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box starfall">
+
+  </div>
+  <div class="sourceCode" id="cb14">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.starfall</span> {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#f0c27b</span><span class="op">,</span> <span class="cn">#4b1248</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box nelson">
+
+  </div>
+  <div class="sourceCode" id="cb15">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.nelson</span> {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#f2709c</span><span class="op">,</span> <span class="cn">#ff9472</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box forever-lost">
+
+  </div>
+  <div class="sourceCode" id="cb16">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.forever-lost</span> {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#5d4157</span><span class="op">,</span> <span class="cn">#a8caba</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box blurry-beach">
+
+  </div>
+  <div class="sourceCode" id="cb17">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.blurry-beach</span> {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#d53369</span><span class="op">,</span> <span class="cn">#cbad6d</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box influenza">
+
+  </div>
+  <div class="sourceCode" id="cb18">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.influenza</span> {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#c04848</span><span class="op">,</span> <span class="cn">#480048</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box jshine">
+
+  </div>
+  <div class="sourceCode" id="cb19">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.jshine</span> {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#12c2e9</span><span class="op">,</span> <span class="cn">#c471ed</span><span class="op">,</span> <span class="cn">#f64f59</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box calm-darya">
+
+  </div>
+  <div class="sourceCode" id="cb20">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.calm-darya</span> {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#5f2c82</span><span class="op">,</span> <span class="cn">#49a09d</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box titanium">
+
+  </div>
+  <div class="sourceCode" id="cb21">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.titanium</span> {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#283048</span><span class="op">,</span> <span class="cn">#859398</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box pinky">
+
+  </div>
+  <div class="sourceCode" id="cb22">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.pinky</span> {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#dd5e89</span><span class="op">,</span> <span class="cn">#f7bb97</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box purple-paradise">
+
+  </div>
+  <div class="sourceCode" id="cb23">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.purple-paradise</span> {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#1d2b64</span><span class="op">,</span> <span class="cn">#f8cdda</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box horizon">
+
+  </div>
+  <div class="sourceCode" id="cb24">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.horizon</span> {</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#003973</span><span class="op">,</span> <span class="cn">#e5e5be</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+  <div class="gradient-box noon-to-dusk">
+
+  </div>
+  <div class="sourceCode" id="cb25">
+    <pre class="sourceCode css"><code class="sourceCode css"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.noon-to-dusk</span> {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">linear-gradient(</span>to <span class="dv">right</span><span class="op">,</span> <span class="cn">#ff6e7f</span><span class="op">,</span> <span class="cn">#bfe9ff</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>handling-route-changes-in-single-page-apps</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h3 id="describe-your-thoughts-on-how-a-single-page-web-app-should-handle-focus-when-changing-routes">Describe your thoughts on how a single page web app should handle focus when changing routes</h3>
+<h4 id="answer">Answer</h4>
+<p>Single page applications make use of client-side rendering. This means that ‘examplesite.com’ and ‘examplesite.com/page2’ are actually the same HTML web page, but the client app decides what content to drop into that single page at runtime. Your user never actually “leaves” the page, and this causes some accessibility issues in terms of focus.</p>
+<p>Unless focus is explicitly managed in the app, a scenario like this may happen:</p>
+<ol type="1">
+<li>User visits ‘examplesite.com’</li>
+<li>User clicks a link to go to another route: ‘examplesite.com/product1’</li>
+<li>Client app changes the visible content to show the details for this new route (e.g. some info about Product 1)</li>
+<li>Focus is still on the link that was clicked in step 2</li>
+<li>If a user uses the keyboard or screen reader to now try and read the content, the focused starting point is in the middle of the page on an element no longer visible</li>
+</ol>
+<p>Many strategies have been proposed in handling this situation, all involving explicitly managing the focus when the new page content is rendered. <a href="https://www.gatsbyjs.org/blog/2019-07-11-user-testing-accessible-client-routing/">Recent research by GatsbyJS</a> suggests the best approach is:</p>
+<ol type="1">
+<li>User visits ‘examplesite.com’</li>
+<li>User clicks a link to go to another route: ‘examplesite.com/product1’</li>
+<li>Client app changes the visible content to show the details for this new route (e.g. some info about Product 1)</li>
+<li>Client app manually places focus on the main header at the top of the page (almost always this will be the H1 element)</li>
+</ol>
+<p>By doing so, focus is reset to the top of the page, ready for the user to begin exploring the new content. This solution requires inserting the main heading into the start of tabbing order with <code>tabindex="-1"</code>.</p>
+<h4 id="good-to-hear">Good to hear</h4>
+<ul>
+<li>Focus issues caused by client-side rendering, instead of server-side</li>
+<li>Focus should not be left on elements no longer visible on the page</li>
+<li>Challenges faced by screen reader users and users utilising keyboard navigation</li>
+<li>Careful manual focus management required</li>
+</ul>
+<h5 id="additional-links">Additional links</h5>
+<ul>
+<li><a href="https://www.upyoura11y.com/handling-focus/">Handling Focus on Route Change: Up Your A11y</a></li>
+</ul>
+<!-- tags: (accessibility) -->
+<!-- expertise: (1) -->
+</body>
+</html>
